@@ -29,7 +29,8 @@ ARM Macro Assembler    Page 1
    18 00000000                 PRESERVE8
    19 00000000                 THUMB
    20 00000000         
-   21 00000000         
+   21 00000000 00000000 
+                       n       EQU              0
    22 00000000         
    23 00000000         ;-----------------------LCD_OutDec----------------------
                        -
@@ -62,13 +63,13 @@ ARM Macro Assembler    Page 1
    49 00000030 F100 0030       ADD              R0 ,R0, #0x30
    50 00000034 F7FF FFFE       BL               ST7735_OutChar
    51 00000038 BF00            NOP
-   52 0000003A F11D 0D04       ADDS             R13, R13, #4
 
 
 
 ARM Macro Assembler    Page 2 
 
 
+   52 0000003A F11D 0D04       ADDS             R13, R13, #4
    53 0000003E F1A4 0401       SUB              R4, R4, #1
    54 00000042 2C00            CMP              R4, #0
    55 00000044 D000            BEQ              done_pop
@@ -97,48 +98,48 @@ ARM Macro Assembler    Page 2
    74 0000004E         LCD_OutFix
    75 0000004E         ; change r8 to r7
    76 0000004E E92D 4FF0       PUSH             {R4-R11,LR} ;DONE
-   77 00000052 F04F 0401       MOV              R4, #1      ; 
-   78 00000056 F242 7810       MOV              R8, #10000  ;
-   79 0000005A 4540            CMP              R0, R8      ;
-   80 0000005C D225            BHS              asterisk
-   81 0000005E         divide
-   82 0000005E 2C05            CMP              R4, #5      ;
-   83 00000060 D00E            BEQ              out_number
-   84 00000062 F04F 010A       MOV              R1, #10     ; 
-   85 00000066 4605            MOV              R5, R0      ;
-   86 00000068 FBB0 F0F1       UDIV             R0, R0, R1  ;
-   87 0000006C FB00 F201       MUL              R2, R0, R1  ; 
-   88 00000070 EBA5 0202       SUB              R2, R5, R2  ; 
-   89 00000074 B081            SUB              SP, SP, #4  ; 
-   90 00000076 F88D 2000       STRB             R2, [SP]    ;
-   91 0000007A F104 0401       ADD              R4, R4, #1  ;
+   77 00000052 F04F 0401       MOV              R4, #1      ; R5
+   78 00000056 F242 7810       MOV              R8, #10000  ;R7,9999,DONE
+   79 0000005A 4540            CMP              R0, R8      ;DONE
+   80 0000005C D225            BHS              asterik     ;DONE
+   81 0000005E         divide                               ;GOOD DONE
+   82 0000005E 2C05            CMP              R4, #5      ; DONE R5, 5
+   83 00000060 D00E            BEQ              out_number  ;DONE 
+   84 00000062 F04F 010A       MOV              R1, #10     ; R4,10, DONE
+   85 00000066 4605            MOV              R5, R0      ; R1,R0, DONE
+   86 00000068 FBB0 F0F1       UDIV             R0, R0, R1  ; R0,R0,R4 DONE
+   87 0000006C FB00 F201       MUL              R2, R0, R1  ; R2,R0,R4 DONE
+   88 00000070 EBA5 0202       SUB              R2, R5, R2  ; R2,R1,R2 DONE
+   89 00000074 B081            SUB              SP, SP, #4  ; DONE
+   90 00000076 F88D 2000       STRB             R2, [SP]    ;DONE
+   91 0000007A F104 0401       ADD              R4, R4, #1  ;DONE
    92 0000007E E7EE            B                divide      ;DONE
    93 00000080         
    94 00000080         out_number
-   95 00000080 2C00            CMP              R4, #0      ; 
-   96 00000082 D026            BEQ              done        ;
-   97 00000084 2C04            CMP              R4, #4      ; 
-   98 00000086 D007            BEQ              out_decimal ; 
-   99 00000088 F89D 0000       LDRB             R0, [SP]    ; 
-  100 0000008C F7FF FFFE       BL               LCD_OutDec  ;
-  101 00000090 B001            ADD              SP, SP, #4  ;
-  102 00000092 F1A4 0401       SUB              R4, R4, #1  ;
-  103 00000096 E7F3            B                out_number  ;
-  104 00000098         out_decimal                          ;
-  105 00000098 4607            MOV              R7, R0      ;
-  106 0000009A F04F 002E       MOV              R0, #0x2E   ;
-  107 0000009E F7FF FFFE       BL               ST7735_OutChar ;
+   95 00000080 2C00            CMP              R4, #0      ; R5,0 DONE
+   96 00000082 D026            BEQ              done        ; NONUMLEFT2 DONE
+   97 00000084 2C04            CMP              R4, #4      ; DONE
+   98 00000086 D007            BEQ              out_decimal ; DONE
+   99 00000088 F89D 0000       LDRB             R0, [SP]    ; DONE
+  100 0000008C F7FF FFFE       BL               LCD_OutDec  ;DONE
+  101 00000090 B001            ADD              SP, SP, #4  ;DONE
+  102 00000092 F1A4 0401       SUB              R4, R4, #1  ;DONE
+  103 00000096 E7F3            B                out_number  ;DONE
+  104 00000098         out_decimal                          ;DONE
+  105 00000098 4607            MOV              R7, R0      ;DONE
+  106 0000009A F04F 002E       MOV              R0, #0x2E   ;DONE
 
 
 
 ARM Macro Assembler    Page 3 
 
 
-  108 000000A2 F1A4 0401       SUB              R4, R4, #1  ;
-  109 000000A6 4638            MOV              R0, R7      ;
-  110 000000A8 E7EA            B                out_number  ;
+  107 0000009E F7FF FFFE       BL               ST7735_OutChar ;DONE
+  108 000000A2 F1A4 0401       SUB              R4, R4, #1  ;DONE
+  109 000000A6 4638            MOV              R0, R7      ;DONE
+  110 000000A8 E7EA            B                out_number  ;DONE
   111 000000AA         
-  112 000000AA         asterisk                             ;DONE
+  112 000000AA         asterik                              ;DONE
   113 000000AA F04F 002A       MOV              R0, #0x2A   ;DONE
   114 000000AE F7FF FFFE       BL               ST7735_OutChar ;DONE
   115 000000B2 F04F 002E       MOV              R0, #0x2E   ;DONE
@@ -194,14 +195,14 @@ Symbol: LCD_OutFix
    Uses
       At line 15 in file Print.s
 Comment: LCD_OutFix used once
-asterisk 000000AA
+asterik 000000AA
 
-Symbol: asterisk
+Symbol: asterik
    Definitions
       At line 112 in file Print.s
    Uses
       At line 80 in file Print.s
-Comment: asterisk used once
+Comment: asterik used once
 divide 0000005E
 
 Symbol: divide
@@ -279,6 +280,21 @@ Comment: output used once
 
 
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+n 00000000
+
+Symbol: n
+   Definitions
+      At line 21 in file Print.s
+   Uses
+      None
+Comment: n unused
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 External symbols
 
 ST7735_OutChar 00000000
@@ -304,4 +320,4 @@ Symbol: ST7735_OutString
       None
 Comment: ST7735_OutString unused
 2 symbols
-345 symbols in table
+346 symbols in table

@@ -18,7 +18,7 @@
 	PRESERVE8
     THUMB
 
-
+n EQU 0
 
 ;-----------------------LCD_OutDec-----------------------
 ; Output a 32-bit number in unsigned decimal format
@@ -74,42 +74,42 @@ done_pop
 LCD_OutFix
 ; change r8 to r7
 	PUSH {R4-R11,LR};DONE
-	MOV R4, #1; 
-	MOV R8, #10000;
-	CMP R0, R8;
-	BHS asterisk
-divide
-	CMP R4, #5;
-	BEQ out_number 
-	MOV R1, #10; 
-	MOV R5, R0;
-	UDIV R0, R0, R1;
-	MUL R2, R0, R1; 
-	SUB R2, R5, R2; 
-	SUB SP, SP, #4; 
-	STRB R2, [SP];
-	ADD R4, R4, #1;
+	MOV R4, #1; R5
+	MOV R8, #10000;R7,9999,DONE
+	CMP R0, R8;DONE
+	BHS asterik;DONE
+divide;GOOD DONE
+	CMP R4, #5; DONE R5, 5
+	BEQ out_number;DONE 
+	MOV R1, #10; R4,10, DONE
+	MOV R5, R0; R1,R0, DONE
+	UDIV R0, R0, R1; R0,R0,R4 DONE
+	MUL R2, R0, R1; R2,R0,R4 DONE
+	SUB R2, R5, R2; R2,R1,R2 DONE
+	SUB SP, SP, #4; DONE
+	STRB R2, [SP];DONE
+	ADD R4, R4, #1;DONE
 	B divide;DONE
 	
 out_number
-	CMP R4, #0; 
-	BEQ done;
-	CMP R4, #4; 
-	BEQ out_decimal; 
-	LDRB R0, [SP]; 
-	BL LCD_OutDec;
-	ADD SP, SP, #4;
-	SUB R4, R4, #1;
-	B out_number;
-out_decimal ;
-	MOV R7, R0;
-	MOV R0, #0x2E;
-	BL ST7735_OutChar;
-	SUB R4, R4, #1;
-	MOV R0, R7;
-	B out_number;
+	CMP R4, #0; R5,0 DONE
+	BEQ done; NONUMLEFT2 DONE
+	CMP R4, #4; DONE
+	BEQ out_decimal; DONE
+	LDRB R0, [SP]; DONE
+	BL LCD_OutDec;DONE
+	ADD SP, SP, #4;DONE
+	SUB R4, R4, #1;DONE
+	B out_number;DONE
+out_decimal ;DONE
+	MOV R7, R0;DONE
+	MOV R0, #0x2E;DONE
+	BL ST7735_OutChar;DONE
+	SUB R4, R4, #1;DONE
+	MOV R0, R7;DONE
+	B out_number;DONE
 	
-asterisk;DONE
+asterik;DONE
 	MOV R0, #0x2A;DONE
 	BL ST7735_OutChar;DONE
 	MOV R0, #0x2E;DONE

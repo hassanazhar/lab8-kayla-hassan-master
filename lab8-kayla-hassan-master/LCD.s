@@ -100,8 +100,7 @@ writedata
 ;3) Set D/C=PA6 to one
 ;4) Write the 8-bit data to SSI0_DR_R
 
-sstep1   
-	PUSH{R1}
+sstep1    
 	LDR R1,=SSI0_SR_R
 	LDR R2,[R1]
 	AND R2,#0X02
@@ -115,7 +114,6 @@ sstep1
 	
 	LDR R1,=SSI0_DR_R
 	STR R0,[R1]
-	POP {R1}
     BX  LR                          ;   return
 
 

@@ -52,9 +52,19 @@ void Systick_Init(){
 	
 	NVIC_ST_CTRL_R =0x07;
 	
+	
 }
 uint32_t ADCMail=0;
 uint32_t ADCStatus = 0;
+void Systick_Handler(){// SAMPLE THE ADC?
+	GPIO_PORTF_DATA_R ^= 0X4;
+	GPIO_PORTF_DATA_R ^= 0X2;
+	ADC_Init();
+	ADCMail = ADC_In();
+	ADCStatus =1;
+	GPIO_PORTF_DATA_R ^=0x4;
+}
+
 int main1(void){      // single step this program and look at Data
   TExaS_Init();       // Bus clock is 80 MHz 
   ADC_Init();         // turn on ADC, set channel to 1
@@ -83,12 +93,12 @@ int main2(void){
 uint32_t Convert(uint32_t input){
   Position = input/2;
 	return Position;
-	
 }
 int main(void){ 
   TExaS_Init();         // Bus clock is 80 MHz 
   ST7735_InitR(INITR_REDTAB); 
   PortF_Init();
+	//Systick_Init();// ERROR
   ADC_Init();         // turn on ADC, set channel to 1
   while(1){
 		PF2^= 0X04;
@@ -104,33 +114,35 @@ int main(void){
 		PF1 = 0;          // end of LCD Profile
   }
 }   
-int main3(void){ //check to see if its right
+int main3(void){ //check to see if its right MY VALUES FLICKER SO ADC STATUS ALWAYS ==1/ SYSTICK NOT WORKING
   TExaS_Init();
 	ST7735_InitR(INITR_REDTAB);
 	PortF_Init();
-	Systick_Init();
+	Systick_Init();// ERROR
 	ADC_Init();
 	uint32_t inputfromADCMail;
 	
   // your Lab 8
   while(1){
-		if (ADCStatus==1){
-			PF3^= 0x08; // might be wrong
-			inputfromADCMail = ADCMail;
-			ADCStatus=0;
-			Position=Convert(inputfromADCMail);
+		while (ADCStatus==1){
+			PF3= 0x08; // might be wrong
+			Position=Convert(ADCMail);
+			PF3=0;
+			PF1=0x02;
 			ST7735_SetCursor(0,0);
-			LCD_OutDec(Data); ST7735_OutString("    "); 
-			ST7735_SetCursor(6,0);
-			LCD_OutFix(Position);
+			LCD_OutFix(Position); ST7735_OutString("    "); 
+			PF1=0;
+			//ST7735_SetCursor(6,0);
+			ADCStatus=0;
 			
   }
 }
 	}
-void Systick_Handler(){
-	GPIO_PORTF_DATA_R ^= 0X4;
-	GPIO_PORTF_DATA_R ^= 0X2;
-	ADCMail = ADC_In();
-	ADCStatus =1;
-	GPIO_PORTF_DATA_R ^=0x4;
-}
+//void Systick_Handler(){
+//	GPIO_PORTF_DATA_R ^= 0X4;
+//	GPIO_PORTF_DATA_R ^= 0X2;
+//	ADCMail = ADC_In();
+//	ADCStatus =1;
+//	GPIO_PORTF_DATA_R ^=0x4;
+//}
+

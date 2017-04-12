@@ -1,5 +1,4 @@
 // ADC.c
-// ADC.c
 // Runs on LM4F120/TM4C123
 // Provide functions that initialize ADC0
 // Last Modified: 3/6/2015 
@@ -21,9 +20,11 @@ GPIO_PORTE_AFSEL_R|=0X04; //ALT FUNC ON
 GPIO_PORTE_DEN_R &=~0X04;// DISABLE DIG I/0 ON PE2
 GPIO_PORTE_AMSEL_R |= 0X04;
 SYSCTL_RCGCADC_R |=0X01; //SETS ADC CLOCK
-	while ((SYSCTL_RCGCADC_R & 0X01)== 0X00){}
+		delay = 0x5000;
+		while(delay){delay--;}
+
 //ADC0_PC_R &= ~0XF;
-ADC0_SAC_R = 0x04; // 16) enable hardware oversampling; A N means 2^N (16 here) samples are averaged; 0<=N<=6
+//ADC0_SAC_R = 0x04; // 16) enable hardware oversampling; A N means 2^N (16 here) samples are averaged; 0<=N<=6
 ADC0_PC_R |= 0X01; //125KHZ MAYBE &=
 ADC0_SSPRI_R = 0X0123; //SEQUENCER 3 HIGHEST PRI
 ADC0_ACTSS_R &=~0X08;// DISABLE SEQUENCER 3
@@ -32,6 +33,7 @@ ADC0_SSMUX3_R = ~0X0F; // CHANNEL 1 FOR PE2
 ADC0_SSMUX3_R +=1;
 ADC0_SSCTL3_R = 0X06;// DISABLE TEMP MEASUREMENT ETC
 ADC0_IM_R &= ~0X0008;// DISABLE INTERRUPTS
+ADC0_SAC_R = 0x06; // 16) enable hardware oversampling; A N means 2^N (16 here) samples are averaged; 0<=N<=6
 ADC0_ACTSS_R |= 0X0008;
 }
 
@@ -43,7 +45,7 @@ uint32_t ADC_In(void){
 uint32_t data;
 	ADC0_PSSI_R =0X08;// initialize ss3
 	while((ADC0_RIS_R&0x08)==0){};// wait for conversion done
-		data =ADC0_SSFIFO3_R&0x0FFF; // read result
+		data =ADC0_SSFIFO3_R&0xFFF; // read result
 		ADC0_ISC_R = 0x0008;// acknowledge completion
 		return data;
   

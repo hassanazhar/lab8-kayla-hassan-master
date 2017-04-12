@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Lab8.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Lab8.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Wed Apr 12 02:18:42 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Wed Apr 12 03:05:42 2017
 <BR><P>
 <H3>Maximum Stack Usage =        160 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -874,8 +874,10 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ad]"></a>ADC_Init</STRONG> (Thumb, 208 bytes, Stack size 0 bytes, adc.o(i.ADC_Init))
-<BR><BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<P><STRONG><a name="[ad]"></a>ADC_Init</STRONG> (Thumb, 216 bytes, Stack size 8 bytes, adc.o(i.ADC_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = ADC_Init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[af]"></a>Convert</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, lab8.o(i.Convert))
