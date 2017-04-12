@@ -63,7 +63,7 @@ int main1(void){      // single step this program and look at Data
   }
 }
 
-int main(void){
+int main2(void){
   TExaS_Init();       // Bus clock is 80 MHz 
   ADC_Init();         // turn on ADC, set channel to 1
   ST7735_InitR(INITR_REDTAB); 
@@ -81,9 +81,11 @@ int main(void){
 }
 
 uint32_t Convert(uint32_t input){
-  return 0;
+  Position = input/2;
+	return Position;
+	
 }
-int main3(void){ 
+int main(void){ 
   TExaS_Init();         // Bus clock is 80 MHz 
   ST7735_InitR(INITR_REDTAB); 
   PortF_Init();
@@ -102,7 +104,7 @@ int main3(void){
 		PF1 = 0;          // end of LCD Profile
   }
 }   
-int main2(void){ //check to see if its right
+int main3(void){ //check to see if its right
   TExaS_Init();
 	ST7735_InitR(INITR_REDTAB);
 	PortF_Init();
@@ -132,4 +134,3 @@ void Systick_Handler(){
 	ADCStatus =1;
 	GPIO_PORTF_DATA_R ^=0x4;
 }
-

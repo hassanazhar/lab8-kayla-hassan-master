@@ -54,8 +54,10 @@
 
 #ifndef _ST7735H_
 #define _ST7735H_
+#include <stdint.h>
 
 // some flags for ST7735_InitR()
+
 enum initRFlags{
   none,
   INITR_GREENTAB,
@@ -82,6 +84,7 @@ enum initRFlags{
 // Input: none
 // Output: none
 void ST7735_InitB(void);
+void Delay1ms(uint32_t n);
 
 
 //------------ST7735_InitR------------
